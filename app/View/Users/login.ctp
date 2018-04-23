@@ -23,7 +23,6 @@ $copyNote = ' &copy; '.$year;
 $copyNote .= ' | '.$ver;
 
 echo $this->Form->create('User', array(
-    'url' => array('controller' => 'users', 'action' => 'login', 'admin' => true, 'prefix' => 'admin'),
     'inputDefaults' => array(
         'div' => 'form-group',
         'error' => ['attributes' => ['wrap' => 'div', 'class' => 'invalid-feedback']],
