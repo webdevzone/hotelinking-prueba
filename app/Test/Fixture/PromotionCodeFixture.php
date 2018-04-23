@@ -33,11 +33,12 @@ class PromotionCodeFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => 1,
-			'user_id' => 'Lorem ipsum dolor sit amet',
+			'user_id' => 13,
 			'title' => 'Lorem ipsum dolor sit amet',
-			'token' => 'Lorem ipsum dolor sit amet',
+			'token' => 'XDSF3D',
 			'discount' => 1,
-			'redeemed' => 1,
+			'is_redeemed' => 1,
+            'redeemed' => '2018-04-22 22:19:41',
 			'created' => '2018-04-22 22:19:41',
 			'modified' => '2018-04-22 22:19:41'
 		),

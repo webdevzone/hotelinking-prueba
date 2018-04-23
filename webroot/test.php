@@ -36,14 +36,14 @@ if (!defined('DS')) {
  * The full path to the directory which holds "app", WITHOUT a trailing DS.
  */
 if (!defined('ROOT')) {
-	define('ROOT', dirname(dirname(dirname(__FILE__))));
+    define('ROOT', dirname(dirname(__FILE__)));
 }
 
 /**
  * The actual directory name for the "app".
  */
 if (!defined('APP_DIR')) {
-	define('APP_DIR', basename(dirname(dirname(__FILE__))));
+    define('APP_DIR', 'app');
 }
 
 /**
@@ -51,6 +51,20 @@ if (!defined('APP_DIR')) {
  */
 if (!defined('CONFIG')) {
 	define('CONFIG', ROOT . DS . APP_DIR . DS . 'Config' . DS);
+}
+
+if (!defined('DEFAULT_LANGUAGE')) {
+    define('DEFAULT_LANGUAGE', 'en');
+}
+
+if (!defined('ENV')) {
+    define('ENV', 'test'); //prod,test,dev
+}
+/**
+ * custom vars
+ */
+if (!defined('HROOT')) {
+    define('HROOT', dirname(dirname(dirname(__FILE__))));
 }
 
 /**
