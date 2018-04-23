@@ -109,3 +109,54 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+
+
+//author settings
+Configure::write('Config.author.website', 'Devzone.es');
+Configure::write('Config.author.projectstart', 2018);
+
+//language settings
+Configure::write('Config.timezone', 'Europe/Madrid');
+Configure::write('Config.language', 'en');
+
+//encrypt decrypt for urls
+Configure::write('Security.key', '7685923143254395432022496749683645');
+
+Configure::write('Company.portalurl', 'devzone.es');
+Configure::write('Company.phone', '+34 610 659 121');
+Configure::write('System.emailfrom', 'martin@devzone.es');
+Configure::write('System.emailfromFull', array(Configure::read('System.emailfrom') => 'Martin'));
+Configure::write('System.emailbounce', 'martin@devzone.es');
+
+Configure::write('Config.allowedlanguages', array(
+    'en' => array('locale' => 'eng', 'label' => 'English', 'domain' => 'devzone.local'), //www.devzone.es
+));
+
+
+switch (ENV) {
+    case "prod":
+        Configure::write('ISTEST', false);  //in production, is set to false
+        break;
+    case "test":
+    case "dev":
+    default:
+        Configure::write('ISTEST', true);
+}
+
+Configure::write('System.emailfrom', 'martin@devzone.es');
+Configure::write('System.emailfromFull', array(Configure::read('System.emailfrom') => 'Devzone'));
+Configure::write('System.emailbounce', 'martin@devzone.es');
+Configure::write('Admin.roles', array(1,5));
+
+
+
+if (Configure::read('ISTEST') === true || Configure::read('debug') == 2) {
+    Configure::write('Admin.email',array('admintest-hotelinking@koode.eu'));
+    Configure::write('Admin.controlemail',array('admintest-hotelinking@koode.eu'));
+    Configure::write('Config.assets', '/assets/');
+} else {
+    Configure::write('Admin.email',array('martin@devzone.es'));
+    Configure::write('Admin.controlemail',array('admintest-hotelinking@koode.eu'));
+    Configure::write('Config.assets', '/assets/');
+}
