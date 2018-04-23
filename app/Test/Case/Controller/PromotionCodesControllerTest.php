@@ -12,7 +12,9 @@ class PromotionCodesControllerTest extends ControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.promotion_code'
+		'app.promotion_code',
+		'app.user',
+		'app.user_role'
 	);
 
 /**
@@ -25,12 +27,12 @@ class PromotionCodesControllerTest extends ControllerTestCase {
 	}
 
 /**
- * testView method
+ * testRedeem method
  *
  * @return void
  */
-	public function testView() {
-		$this->markTestIncomplete('testView not implemented.');
+	public function testRedeem() {
+		$this->markTestIncomplete('testRedeem not implemented.');
 	}
 
 /**
@@ -40,24 +42,6 @@ class PromotionCodesControllerTest extends ControllerTestCase {
  */
 	public function testAdd() {
 		$this->markTestIncomplete('testAdd not implemented.');
-	}
-
-/**
- * testEdit method
- *
- * @return void
- */
-	public function testEdit() {
-		$this->markTestIncomplete('testEdit not implemented.');
-	}
-
-/**
- * testDelete method
- *
- * @return void
- */
-	public function testDelete() {
-		$this->markTestIncomplete('testDelete not implemented.');
 	}
 
 }

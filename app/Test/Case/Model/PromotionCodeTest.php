@@ -12,7 +12,9 @@ class PromotionCodeTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'app.promotion_code'
+		'app.promotion_code',
+		'app.user',
+		'app.user_role'
 	);
 
 /**
@@ -34,6 +36,15 @@ class PromotionCodeTest extends CakeTestCase {
 		unset($this->PromotionCode);
 
 		parent::tearDown();
+	}
+
+/**
+ * testGeneratePromotionCode method
+ *
+ * @return void
+ */
+	public function testGeneratePromotionCode() {
+		$this->markTestIncomplete('testGeneratePromotionCode not implemented.');
 	}
 
 }
