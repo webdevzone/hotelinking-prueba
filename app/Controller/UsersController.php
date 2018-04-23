@@ -112,6 +112,14 @@ class UsersController extends AppController {
      * display my account
      */
     public function myaccount() {
-
+        $user_id = $this->Auth->user('id');
+        $promotioncodes = [];
+        if (!empty($user_id)) {
+            $promotioncodes = $this->User->PromotionCode->find('all', [
+                'recursive' => -1,
+                'conditions' => ['PromotionCode.user_id' => $user_id],
+            ]);
+        }
+        $this->set(compact('promotioncodes'));
     }
 }

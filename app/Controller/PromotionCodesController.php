@@ -8,6 +8,11 @@ App::uses('AppController', 'Controller');
  */
 class PromotionCodesController extends AppController {
 
+    /* define permissions - key = action, value - array of groups, '*' means all groups*/
+    public $permissions = [
+        'add' => '*',
+        'redeem' => '*',
+    ];
 /**
  * Components
  *
@@ -21,24 +26,34 @@ class PromotionCodesController extends AppController {
  * @return void
  */
 	public function index() {
-		$this->PromotionCode->recursive = 0;
-		$this->set('promotionCodes', $this->Paginator->paginate());
 	}
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		if (!$this->PromotionCode->exists($id)) {
-			throw new NotFoundException(__('Invalid promotion code'));
-		}
-		$options = array('conditions' => array('PromotionCode.' . $this->PromotionCode->primaryKey => $id));
-		$this->set('promotionCode', $this->PromotionCode->find('first', $options));
-	}
+
+	public function redeem($id = null) {
+        $user_id = $this->Auth->user('id');
+        if (!$this->PromotionCode->exists($id)) {
+            throw new NotFoundException(__('Invalid Promotion code ID'));
+        }
+        $rs = $this->PromotionCode->find('first', [
+            'recursive' => -1,
+            'conditions' => ['user_id' => $user_id, 'id' => $id],
+        ]);
+        if (!empty($rs)) {
+            $dt = [
+                'id' => $id,
+                'is_redeemed' => true,
+                'redeemed' => date('Y-m-d H:i:s')
+            ];
+            if ($this->PromotionCode->save($dt)) {
+                $this->Flash->success(__('The promotion code has been been redeemed.'));
+                return $this->redirect(array('controller' => 'users', 'action' => 'myaccount'));
+            } else {
+                $this->Flash->error(__('The promotion code could not be redeemed. Please, try again.'));
+            }
+        } else {
+            $this->Flash->error(__('The promotion code could not be redeemed.'));
+        }
+    }
 
 /**
  * add method
@@ -46,59 +61,28 @@ class PromotionCodesController extends AppController {
  * @return void
  */
 	public function add() {
-		if ($this->request->is('post')) {
-			$this->PromotionCode->create();
-			if ($this->PromotionCode->save($this->request->data)) {
-				$this->Flash->success(__('The promotion code has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The promotion code could not be saved. Please, try again.'));
-			}
-		}
-	}
 
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		if (!$this->PromotionCode->exists($id)) {
-			throw new NotFoundException(__('Invalid promotion code'));
-		}
-		if ($this->request->is(array('post', 'put'))) {
-			if ($this->PromotionCode->save($this->request->data)) {
-				$this->Flash->success(__('The promotion code has been saved.'));
-				return $this->redirect(array('action' => 'index'));
-			} else {
-				$this->Flash->error(__('The promotion code could not be saved. Please, try again.'));
-			}
-		} else {
-			$options = array('conditions' => array('PromotionCode.' . $this->PromotionCode->primaryKey => $id));
-			$this->request->data = $this->PromotionCode->find('first', $options);
-		}
-	}
+        $user_id = $this->Auth->user('id');
 
-/**
- * delete method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		$this->PromotionCode->id = $id;
-		if (!$this->PromotionCode->exists()) {
-			throw new NotFoundException(__('Invalid promotion code'));
-		}
-		$this->request->allowMethod('post', 'delete');
-		if ($this->PromotionCode->delete()) {
-			$this->Flash->success(__('The promotion code has been deleted.'));
-		} else {
-			$this->Flash->error(__('The promotion code could not be deleted. Please, try again.'));
-		}
-		return $this->redirect(array('action' => 'index'));
+        //generate random discount value
+        $discount = mt_rand(0, 99);
+
+        $dt = [
+            'user_id' => $user_id,
+            'title' => __('Sample promotion code (%s)', [$discount]),
+            'token' => $this->PromotionCode->generatePromotionCode(),
+            'discount' => $discount
+        ];
+        $this->PromotionCode->set($dt);
+        //debug($this->validationErrors);
+
+        $this->PromotionCode->create();
+        if ($this->PromotionCode->save($dt)) {
+            $this->Flash->success(__('The promotion code has been saved.'));
+            return $this->redirect(array('action' => 'index'));
+        } else {
+            $this->Flash->error(__('The promotion code could not be saved. Please, try again.'));
+        }
+
 	}
 }

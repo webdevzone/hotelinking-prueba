@@ -11,5 +11,15 @@
 			]
 		);
 		?>
+		<hr>
+		<?php
+		echo $this->Html->link(__('view YOUR promotion codes'),
+			['controller' => 'users', 'action' => 'myaccount', 'ext' => 'html'],
+			[
+				'escape' => false,
+				'class' => 'btn btn-link',
+			]
+		);
+		?>
 	</div>
 </div>

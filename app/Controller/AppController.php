@@ -39,7 +39,7 @@ class AppController extends Controller {
         'Cookie',
         'Auth' => [
                 'loginRedirect' => ['controller' => 'users', 'action' => 'myaccount'],
-            'logoutRedirect' => ['controller' => 'promotion_codes', 'action' => 'idnex'],
+            'logoutRedirect' => ['controller' => 'promotion_codes', 'action' => 'index'],
             'authenticate' => [
                 'Form' => ['userModel' => 'User',
                     'contain' => [
